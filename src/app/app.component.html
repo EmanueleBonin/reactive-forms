@@ -1,0 +1,78 @@
+<div class="container-fluid">
+<h2>
+  Registration Form
+</h2>
+<!-- [formGroup] Associazione tra form html e registrationForm nel modulo -->
+<form [formGroup]="registrationForm">
+  {{ registrationForm.value | json}}
+  <div class="form-group">
+    <label>Username</label>
+    <!-- class.is-invalid è una proprietà del bootstrap per mostrare il controllo non valido visivamente -->
+    <input [class.is-invalid]="userName.invalid && userName.touched" formControlName="userName" type="text" class="form-control">
+    <!-- <small [class.d-none]="userName.valid || userName.untouched" class="text-danger">Username is required</small> -->
+    <div *ngIf ="userName.invalid && userName.touched">
+      <small *ngIf="userName.errors?.required" class="text-danger">Username is required</small>
+      <small *ngIf="userName.errors?.minlength" class="text-danger">Username must be at least of 3 character</small>
+      <!-- <small *ngIf="registrationForm.get('userName').errors?.minlength" class="text-danger">Username must be at least of 3 character</small> -->
+      <!-- uso del custom validator -->
+      <small *ngIf="userName.errors?.forbiddenName" class="text-danger">"{{userName.errors?.forbiddenName.value}}" is not admitted</small>
+    </div>
+    {{userName.value}}
+  </div>
+
+  <div class="class form-group">
+    <label>Email</label>
+    <input [class.is-invalid]="email.invalid && email.touched"  type="text" formControlName="email" class="form-control">
+    <small [class.d-none]="email.valid || email.untouched" class="text-danger">email is mandatory</small>
+  </div>
+
+  <div class="class form-check mb-3">
+    <input type="text" class="class form-check-input" fornControlName="subscribe" type="checkbox">
+    <label for="form-check-label">
+      Send me promotional offers
+    </label>
+  </div>
+
+
+
+
+
+  <div class="form-group">
+    <label>Password</label>
+    <!-- formControlName Associazione tra controllo html e controllo nel modulo -->
+    <input formControlName="password" type="password" class="form-control">
+
+  </div>
+
+  <div class="form-group">
+    <label>Confirm Password</label>
+    <input [class.is-invalid]="registrationForm.errors?.misMatch" formControlName="confirmPassword" type="password" class="form-control">
+    <small class="text-danger" *ngIf="registrationForm.errors?.misMatch">Password and confirm password doesn't match</small>  
+  </div>
+
+  <!-- Associazione DIV con l'oggetto di ragruppamento address-->
+  <div formGroupName="address">
+    <div class="form-group">
+      <label>City</label>
+      <input formControlName="city" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>State</label>
+      <input formControlName="state" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>PostalCode</label>
+      <input formControlName="postalCode" type="text" class="form-control">
+    </div>
+      
+
+  </div>
+
+
+  <button class="btn btn-primary" type="submit">Register</button>
+  <button (click)="loadApiData(1)" class="btn btn-secondary ml-2" type="button">Load API Data</button>
+  <button (click)="loadApiData(2)" class="btn btn-secondary ml-2" type="button">Load Only name from API Data</button>
+</form>
+
+
+</div>
