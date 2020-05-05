@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormArray} from '@angular/forms';
 import { forbiddenNameValidator } from './shared/userName.validator';
 import { PasswordValidator } from './shared/password.validator';
+import { RegistrationService } from './registration.service';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,16 @@ export class AppComponent implements OnInit{
   }
 
 
-  constructor(private fb: FormBuilder){}
+  constructor(private fb: FormBuilder, private _registrationService: RegistrationService){}
+
+  onSubmit(){
+    console.log(this.registrationForm);
+    this._registrationService.register(this.registrationForm.value)
+      .subscribe(
+        response => console.log('Success!', response),
+        error => console.error('Error!', error)
+      );
+  }
 
   ngOnInit(){
     this.registrationForm = this.fb.group({
