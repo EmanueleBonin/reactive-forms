@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup} from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormArray} from '@angular/forms';
 import { forbiddenNameValidator } from './shared/userName.validator';
 import { PasswordValidator } from './shared/password.validator';
 
@@ -21,6 +21,22 @@ export class AppComponent implements OnInit{
     return this.registrationForm.get('email');
   }
 
+  // getter per mantenere la getsione multi-mail sulle formarray
+  // il getter tornerà proprio alternateEmails
+  // alla fine l'oggetto tornato viene castato come FormArray
+  get alternateEmails(){
+    return this.registrationForm.get('alternateEmails') as FormArray;
+  }
+
+  // metodo che permette di inserire un nuovo controllo all'interno
+  // della form array che gestisce le e-mail multiple
+  addAlternateEmail(){
+    // ogni volta che verrà invocato questo metodo, verrà aggiunto un controllo
+    // all'array dei controlli alternateEmails
+    this.alternateEmails.push(this.fb.control(''));
+  }
+
+
   constructor(private fb: FormBuilder){}
 
   ngOnInit(){
@@ -35,6 +51,7 @@ export class AppComponent implements OnInit{
           ,state: ['']
           ,postalCode: [''] 
       })
+      , alternateEmails: this.fb.array([])
     }, {validator: PasswordValidator});    
     console.log('OnInit OK!');
 
