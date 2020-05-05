@@ -26,7 +26,7 @@
     <input [class.is-invalid]="email.invalid && email.touched"  type="text" formControlName="email" class="form-control">
     <small [class.d-none]="email.valid || email.untouched" class="text-danger">email is mandatory</small>
     <div formArrayName="alternateEmails" *ngFor="let email of alternateEmails.controls; let i=index">
-      <input type="text" class="form-control my-1" formControlName="i">
+      <input type="text" class="form-control my-1" [formControlName]="i">
     </div>
   </div>
 
